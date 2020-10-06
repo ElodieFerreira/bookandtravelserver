@@ -1,10 +1,10 @@
 // importer la config de la bd
 // exceuter les requetes
 const pool = require("../helpers/helper_db");
-const reservationService = {};
+const bien_has_typeService = {};
 
-reservationService.findById = (reservationId, result) => {
-    pool.query(`SELECT * FROM reservation WHERE ID = ${reservationId}`, (err, res) => {
+bien_has_typeService.findById = (bienId, optionId, result) => {
+    pool.query(`SELECT * FROM bien_has_type WHERE Bien_ID = ${bienId} AND options_ID = ${optionId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -12,15 +12,14 @@ reservationService.findById = (reservationId, result) => {
         }
 
         if (res.length) {
-            console.log("found reservation ", res[0]);
+            console.log("found bien_has_type ", res[0]);
             result(null, res[0]);
             return;
         }
 
-        // not found reservation with the id
+        // not found bien_has_type with the id
         result({ kind: "not_found" }, null);
     });
 };
 
-module.exports = reservationService;
-
+module.exports = bien_has_typeService;

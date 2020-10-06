@@ -3,22 +3,22 @@
 // les retours
 const express = require('express');
 const router = express.Router();
-const reservationService = require('./reservation.service');
+const photoService = require('./photo.service');
 
 test = (req, res) =>{
     console.log("hello");
     res.send("coucou");
 }
 findById = (req, res) => {
-    reservationService.findById(req.params.id, (err, data) => {
+    photoService.findById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
+                    message: `Not found photo with id ${req.params.customerId}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
+                    message: "Error retrieving photo with id " + req.params.customerId
                 });
             }
         } else res.send(data);

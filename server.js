@@ -19,6 +19,14 @@ swaggerDocument = require("./swagger.json");
 const app = express();
 app.use('/option', require('./app/option/option.controller'));
 app.use('/user', require('./app/user/user.controller'));
+app.use('/bien', require('./app/bien/bien.controller'));
+app.use('/reservation', require('./app/reservation/reservation.controller'));
+app.use('/bien_has_type', require('./app/bien_has_type/bien_has_type.controller'));
+app.use('/commentaire', require('./app/commentaire/commentaire.controller'));
+app.use('/message', require('./app/message/message.controller'));
+app.use('/commentairesite', require('./app/commentairesite/commentairesite.controller'));
+app.use('/photo', require('./app/photo/photo.controller'));
+
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
