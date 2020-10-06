@@ -18,6 +18,7 @@ swaggerDocument = require("./swagger.json");
 
 const app = express();
 app.use('/option', require('./app/option/option.controller'));
+app.use('/user', require('./app/user/user.controller'));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

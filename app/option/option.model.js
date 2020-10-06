@@ -2,7 +2,8 @@
 // excéuter les fonctions nécessaires
 // les retours
 const Option = function(option) {
-    this.libelle = option.libelle;
+    this.ID         = option.id;
+    this.libelle    = option.libelle;
 };
 
 
