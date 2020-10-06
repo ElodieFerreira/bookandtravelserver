@@ -2,21 +2,22 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var mysql = require('mysql2');
 const swaggerUi = require('swagger-ui-express');
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: ""
-});
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: ""
+// });
+// api routes
 
 swaggerDocument = require("./swagger.json");
 
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
+// con.connect(function(err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+// });
 
 const app = express();
-
+app.use('/option', require('./app/option/option.controller'));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
