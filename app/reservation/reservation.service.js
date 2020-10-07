@@ -3,6 +3,12 @@
 const pool = require("../helpers/helper_db");
 const reservationService = {};
 
+
+/* 
+*
+*GET
+*
+*/
 reservationService.findById = (reservationId, result) => {
     pool.query(`SELECT * FROM reservation WHERE ID = ${reservationId}`, (err, res) => {
         if (err) {
@@ -60,9 +66,40 @@ reservationService.findByID_Loueur = (ID_Loueur, result) => {
     });
 };
 
+/* 
+*
+*UPDATE
+*
+*/
+
 // mise de jour de la réservation en état validé
 reservationService.updateByID_etat = (ID, result) => {
     pool.query(`UPDATE reservation set Etat_Reservation = 'VALIDATE' WHERE ID = ${ID}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found reservation ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found reservation with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
+/* 
+*
+*INSRT INTO
+*
+*/
+reservationService.insertReservation = (date_d, date_f, etat, total, bien_id, loueur_id, locataire_id, result) => {
+    pool.query(`INSERT INTO reservation (Date_Debut, Date_fin, Etat_Reservation, Total, Bien_ID, ID_Loueur, ID_Locataire) VALUES ('${date_d}', '${date_f}', '${etat}', '${total}', ${bien_id}, ${loueur_id}, ${locataire_id})`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
