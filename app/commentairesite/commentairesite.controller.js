@@ -25,7 +25,59 @@ findById = (req, res) => {
     });
 };
 
+getall = (req, res) => {
+    commentairesiteService.getall((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found commentairesite with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving commentairesite with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+post = (req, res) => {
+    commentairesiteService.post(req.body.Titre, req.body.Text, req.body.Utilisateur_ID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found commentairesite with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving commentairesite with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+deleteCommentaireSite = (req, res) => {
+    commentairesiteService.deleteCommentaireSite(req.params.ID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found commentairesite with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving commentairesite with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
 router.get('/:id',findById);
-router.get('/',test);
+router.get('/', getall);
+
+router.post('/', post);
+
+router.delete('/:ID', deleteCommentaireSite);
 
 module.exports = router;
