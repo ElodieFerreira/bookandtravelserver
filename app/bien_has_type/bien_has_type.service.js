@@ -12,8 +12,46 @@ bien_has_typeService.findById = (bienId, optionId, result) => {
         }
 
         if (res.length) {
-            console.log("found bien_has_type ", res[0]);
-            result(null, res[0]);
+            console.log("found bien_has_type ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found bien_has_type with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+bien_has_typeService.findAll = ( result) => {
+    pool.query(`SELECT * FROM bien_has_type`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found bien_has_type ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found bien_has_type with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+bien_has_typeService.findByIdBien = (bienId, result) => {
+    pool.query(`SELECT * FROM bien_has_type WHERE Bien_ID = ${bienId}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found bien_has_type ", res);
+            result(null, res);
             return;
         }
 

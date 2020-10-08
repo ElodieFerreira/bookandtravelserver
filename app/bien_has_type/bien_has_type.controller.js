@@ -25,7 +25,41 @@ findById = (req, res) => {
     });
 };
 
+findAll = (req, res) => {
+    bien_has_typeService.findAll((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found bien_has_type with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving bien_has_type with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+findByIdBien = (req, res) => {
+    bien_has_typeService.findByIdBien(req.params.bienid, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found bien_has_type with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving bien_has_type with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+
 router.get('/:bienid/:optionid/',findById);
-router.get('/',test);
+router.get('/:bienid/',findByIdBien);
+router.get('/',findAll);
 
 module.exports = router;

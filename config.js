@@ -3,6 +3,6 @@ const dbConfig = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: "",
-    DB: "mydb"
+    DB: "projet-aos"
 };
 module.exports = dbConfig;

@@ -73,9 +73,10 @@ findByID_Loueur = (req, res) => {
 *
 */
 
-// mise de jour de la réservation en état validé
+// mise de jour de l etat de la réservation
+
 updateByID_etat = (req, res) => {
-    reservationService.updateByID_etat(req.params.id, (err, data) => {
+    reservationService.updateByID_etat(req.body.id, req.body.etat, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -96,7 +97,8 @@ updateByID_etat = (req, res) => {
 *
 */
 //
- 
+
+//
 insertReservation = (req, res) => {
     reservationService.insertReservation(req.body.date_d, req.body.date_f, req.body.etat, req.body.total, req.body.bien_id, req.body.loueur_id, req.body.locataire_id, (err, data) => {
         if (err) {
@@ -119,12 +121,16 @@ insertReservation = (req, res) => {
 *Routes
 *
 */
+
+//get
 router.get('/:id',findById);
 router.get('/ID_Locataire/:id',findByID_Locataire);
 router.get('/ID_Loueur/:id',findByID_Loueur);
-router.get('/updateByID_etat/:id',updateByID_etat);
-router.post('/insertReservation/',insertReservation);
 
+
+//post
+router.post('/insertReservation/',insertReservation);
+router.post('/updateByID_etat/',updateByID_etat);
 
 router.get('/',test);
 

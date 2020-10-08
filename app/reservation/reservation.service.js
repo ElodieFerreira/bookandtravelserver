@@ -73,8 +73,10 @@ reservationService.findByID_Loueur = (ID_Loueur, result) => {
 */
 
 // mise de jour de la réservation en état validé
-reservationService.updateByID_etat = (ID, result) => {
-    pool.query(`UPDATE reservation set Etat_Reservation = 'VALIDATE' WHERE ID = ${ID}`, (err, res) => {
+reservationService.updateByID_etat = (ID, etat, result) => {
+    //console.log(pool.query(`UPDATE reservation set Etat_Reservation = '${etat}' WHERE ID = ${ID}`));
+
+    pool.query(`UPDATE reservation set Etat_Reservation = '${etat}' WHERE ID = ${ID}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -99,6 +101,8 @@ reservationService.updateByID_etat = (ID, result) => {
 *
 */
 reservationService.insertReservation = (date_d, date_f, etat, total, bien_id, loueur_id, locataire_id, result) => {
+    //console.log(pool.query(`INSERT INTO reservation (Date_Debut, Date_fin, Etat_Reservation, Total, Bien_ID, ID_Loueur, ID_Locataire) VALUES ('${date_d}', '${date_f}', '${etat}', '${total}', ${bien_id}, ${loueur_id}, ${locataire_id})`));
+
     pool.query(`INSERT INTO reservation (Date_Debut, Date_fin, Etat_Reservation, Total, Bien_ID, ID_Loueur, ID_Locataire) VALUES ('${date_d}', '${date_f}', '${etat}', '${total}', ${bien_id}, ${loueur_id}, ${locataire_id})`, (err, res) => {
         if (err) {
             console.log("error: ", err);
