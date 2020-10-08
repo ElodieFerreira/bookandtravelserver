@@ -25,7 +25,42 @@ findById = (req, res) => {
     });
 };
 
+post = (req, res) => {
+    messageService.post(req.body.Titre, req.body.Text, req.body.User_send, req.body.User_receive, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found message with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving message with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+deleteMessage = (req, res) => {
+    messageService.deleteMessage(req.params.id, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found message with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving message with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
 router.get('/:id',findById);
 router.get('/',test);
 
+router.post('/', post);
+
+router.delete('/:id', deleteMessage)
 module.exports = router;
