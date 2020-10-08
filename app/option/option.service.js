@@ -22,5 +22,24 @@ optionService.findById = (optionId, result) => {
     });
 };
 
+optionService.getall = ( result) => {
+    pool.query(`SELECT * FROM options`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found option ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
 module.exports = optionService;
 
