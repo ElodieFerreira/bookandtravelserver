@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var mysql = require('mysql2');
+var cors = require("cors")
 const swaggerUi = require('swagger-ui-express');
 // var con = mysql.createConnection({
 //     host: "localhost",
@@ -10,13 +10,16 @@ const swaggerUi = require('swagger-ui-express');
 // api routes
 
 swaggerDocument = require("./swagger.json");
-
-// con.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-// });
-
 const app = express();
+// Allow cross plateform request
+app.use(cors())
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use('/option', require('./app/option/option.controller'));
 app.use('/user', require('./app/user/user.controller'));
 app.use('/bien', require('./app/bien/bien.controller'));
@@ -28,11 +31,6 @@ app.use('/commentairesite', require('./app/commentairesite/commentairesite.contr
 app.use('/photo', require('./app/photo/photo.controller'));
 
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api-docs",swaggerUi.serve,
     swaggerUi.setup(swaggerDocument));

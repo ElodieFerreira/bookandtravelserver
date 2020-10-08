@@ -98,7 +98,6 @@ updateByID_etat = (req, res) => {
 //
  
 insertReservation = (req, res) => {
-    console.log(req.date_d);
     reservationService.insertReservation(req.body.date_d, req.body.date_f, req.body.etat, req.body.total, req.body.bien_id, req.body.loueur_id, req.body.locataire_id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
