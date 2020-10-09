@@ -66,6 +66,55 @@ findByID_Loueur = (req, res) => {
         } else res.send(data);
     });
 };
+// commentaires d'un bien 
+getcomments = (req, res) => {
+    reservationService.getcomments(req.params.id, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found reservation with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving reservation with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+
+//photos d'un bien 
+getphotos = (req, res) => {
+    reservationService.getphotos(req.params.id, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found reservation with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving reservation with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
+// les reservations d'un bien 
+getreservation  = (req, res) => {
+    reservationService.getreservation (req.params.id, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found reservation with id ${req.params.customerId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving reservation with id " + req.params.customerId
+                });
+            }
+        } else res.send(data);
+    });
+};
 
 /* 
 *
@@ -126,8 +175,10 @@ insertReservation = (req, res) => {
 router.get('/:id',findById);
 router.get('/ID_Locataire/:id',findByID_Locataire);
 router.get('/ID_Loueur/:id',findByID_Loueur);
-
-
+router.get('/comments/:id',getcomments);
+router.get('/photos/:id',getphotos);
+router.get('/reservations/:id',getreservation);
+ 
 //post
 router.post('/insertReservation/',insertReservation);
 router.post('/updateByID_etat/',updateByID_etat);

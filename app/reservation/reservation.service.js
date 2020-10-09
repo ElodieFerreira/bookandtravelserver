@@ -65,6 +65,66 @@ reservationService.findByID_Loueur = (ID_Loueur, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+//commentaires liées a un bien 
+reservationService.getcomments = (id, result) => {
+    pool.query(`SELECT c.*
+    FROM reservation r, commentaire c
+    WHERE c.Reservation_ID = r.ID
+    AND c.Bien_id = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found reservation ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found reservation with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+//les photos d'un bien 
+reservationService.getphotos = (id, result) => {
+    pool.query(`SELECT * FROM photo WHERE Bien_id = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found reservation ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found reservation with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+// les réservations d'un bien 
+reservationService.getreservation  = (id, result) => {
+    pool.query(`SELECT * FROM reservation WHERE Bien_id = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found reservation ", res);
+            result(null, res);
+            return;
+        }
+
+        // not found reservation with the id
+        result({ kind: "not_found" }, null);
+    });
+};
 
 /* 
 *
