@@ -8,4 +8,4 @@ const Option = function(option) {
 
 
 
-module.exports = option;
+module.exports = Option;

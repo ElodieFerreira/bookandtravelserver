@@ -11,4 +11,4 @@ const Commentaire = function(commentaire) {
 };
 
 
-module.exports = commentaire;
+module.exports = Commentaire;

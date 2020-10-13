@@ -12,4 +12,4 @@ const Bien = function(bien) {
 
 
 
-module.exports = bien;
+module.exports = Bien;

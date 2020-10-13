@@ -9,6 +9,4 @@ const User = function(user) {
     this.Telephone  = user.telephone;
 };
 
-
-
-module.exports = user;
+module.exports = User;

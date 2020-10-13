@@ -11,4 +11,4 @@ const Message = function(message) {
 };
 
 
-module.exports = message;
+module.exports = Message;

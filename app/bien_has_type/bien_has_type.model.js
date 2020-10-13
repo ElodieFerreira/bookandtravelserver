@@ -8,4 +8,4 @@ const Bien_has_type = function(bien_has_type) {
 };
 
 
-module.exports = bien_has_type;
+module.exports = Bien_has_type;

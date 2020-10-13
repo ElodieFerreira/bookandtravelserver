@@ -9,4 +9,4 @@ const Commentairesite = function(commentairesite) {
 };
 
 
-module.exports = commentairesite;
+module.exports = Commentairesite;

@@ -8,4 +8,4 @@ const Photo = function(photo) {
 };
 
 
-module.exports = photo;
+module.exports = Photo;
