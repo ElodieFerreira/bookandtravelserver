@@ -2,6 +2,7 @@
 // exceuter les requetes
 const pool = require("../helpers/helper_db");
 const bienService = {};
+const helpers =  require("../helpers/helper_request");
 
 //select 
 bienService.findById = (bienId, result) => {
@@ -26,6 +27,26 @@ bienService.findById = (bienId, result) => {
 //
 bienService.findAll = (result) => {
     pool.query(`SELECT * FROM bien`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found bien ", res);
+            result(null, res);
+            return;
+        }
+        result({ kind: "not_found" }, null);
+    });
+};
+
+bienService.research = (body, result) => {
+    console.log("debut");
+    let request = helpers.createSearchRequest(body);
+    console.log(request);
+    pool.query(request, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
