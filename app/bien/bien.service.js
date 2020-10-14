@@ -46,11 +46,11 @@ bienService.findAll = (result) => {
 *INSRT INTO
 *
 */
-bienService.create = (libelle, prix, adresse, cp, utilisateur_id, result) => {
+bienService.create = (libelle, prix, adresse, cp, superficie, ville, categorie, utilisateur_id, result) => {
 
     //console.log(pool.query(`INSERT INTO bien(Libelle, Prix, Adresse, CP, Utilisateur_ID) VALUES ('${libelle}', '${prix}', '${adresse}', '${cp}', ${utilisateur_id})`));
 
-    pool.query(`INSERT INTO bien(Libelle, Prix, Adresse, CP, Utilisateur_ID) VALUES ('${libelle}', '${prix}', '${adresse}', '${cp}', ${utilisateur_id})`, (err, res) => {
+    pool.query(`INSERT INTO bien(Libelle, Prix, Adresse, CP, Superficie, Ville, Categorie, Utilisateur_ID) VALUES ('${libelle}', '${prix}', '${adresse}', '${cp}', '${superficie}', '${ville}', '${categorie}', ${utilisateur_id})`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -70,10 +70,10 @@ bienService.create = (libelle, prix, adresse, cp, utilisateur_id, result) => {
 *UPDATE 
 *
 */
-bienService.update = (bienId ,libelle, prix, adresse, cp, utilisateur_id, result) => {
+bienService.update = (bienId ,libelle, prix, adresse, cp, superficie, ville, categorie, utilisateur_id, result) => {
     //console.log(pool.query(`UPDATE bien SET Libelle = '${libelle}' , Prix = '${prix}' , Adresse = '${adresse}', CP = '${cp}'  WHERE ID = ${bienId}`));
     
-    pool.query(`UPDATE bien SET Libelle = '${libelle}' , Prix = '${prix}' , Adresse = '${adresse}', CP = '${cp}'  WHERE ID = ${bienId}`, (err, res) => {
+    pool.query(`UPDATE bien SET Libelle = '${libelle}' , Prix = '${prix}' , Adresse = '${adresse}', CP = '${cp}', Superficie = '${superficie}', ville = '${ville}', categorie = '${categorie}' WHERE ID = ${bienId}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

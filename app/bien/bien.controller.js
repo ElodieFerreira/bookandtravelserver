@@ -50,7 +50,7 @@ findAll= (req, res) => {
 *
 */
 create = (req, res) => {
-    bienService.create(req.body.libelle, req.body.prix, req.body.adresse, req.body.cp, req.body.utilisateur_id , (err, data) => {
+    bienService.create(req.body.libelle, req.body.prix, req.body.adresse, req.body.cp, req.body.superficie, req.body.ville, req.body.categorie, req.body.utilisateur_id , (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -70,7 +70,7 @@ create = (req, res) => {
 *
 */
 update = (req, res) => {
-    bienService.update(req.params.bienId, req.body.libelle, req.body.prix, req.body.adresse, req.body.cp, req.body.utilisateur_id , (err, data) => {
+    bienService.update(req.params.bienId, req.body.libelle, req.body.prix, req.body.adresse, req.body.cp, req.body.superficie, req.body.ville, req.body.categorie, req.body.utilisateur_id , (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
