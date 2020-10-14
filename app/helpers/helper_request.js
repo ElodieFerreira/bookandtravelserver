@@ -11,8 +11,8 @@ const Request = function(request) {
 }
 
 service.createSearchRequest = function(Request) {
-    //structure de la requete
-    let retour = "Select * from bien b , bien_has_type bht where b.ID = bht.Bien_ID ";
+    // structure de la requete
+    let retour = "Select b.* from bien b , bien_has_type bht where b.ID = bht.Bien_ID ";
     
     // Villes
     var city = "";
@@ -26,7 +26,7 @@ service.createSearchRequest = function(Request) {
          city = city+")"; 
      }
 
-     //options
+    // options
      var option2 ="";
      if(Request.options.length != 0 ){
         option2 = " and options_ID in(";
@@ -37,8 +37,44 @@ service.createSearchRequest = function(Request) {
          }
          option2 = option2+")"; 
      }
+    // minSurface
+    var minSurface2 ="";
+    if(Request.minSurface.length != 0 ){
+        minSurface2 = " and Superficie >= "+Request.minSurface[0]+" ";
+    }
 
-    retour += city+option2;
+    // maxSurface
+    var maxSurface2 ="";
+    if(Request.maxSurface.length != 0 ){
+        maxSurface2 = " and Superficie <= "+Request.maxSurface[0]+" ";
+    }
+
+    // minPrice
+    var minPrice2 ="";
+    if(Request.minPrice.length != 0 ){
+        minPrice2 = " and Prix >= "+Request.minPrice[0]+" ";
+    }
+
+    // maxPrice
+    var maxPrice2 ="";
+    if(Request.maxPrice.length != 0 ){
+        maxPrice2 = " and Prix <= "+Request.maxPrice[0]+" ";
+    }
+
+    // categorie
+    var categorie2 = "";
+    if(Request.categorie.length != 0 ){
+        categorie2 = " and Categorie in(";
+        categorie2 += "'"+Request.categorie[0]+"'";
+       
+         for (var i = 1 ; i < Request.categorie.length ; i++ ){
+            categorie2 = categorie2+",'"+Request.categorie[i]+"'";
+         }
+         categorie2 = categorie2+")"; 
+     }
+
+    //fin
+    retour += city+option2+minSurface2+maxSurface2+minPrice2+maxPrice2+categorie2;
     console.log(retour);
     return(retour);
 }
