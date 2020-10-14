@@ -80,3 +80,30 @@ service.createSearchRequest = function(Request) {
 }
  
 module.exports = service;
+
+/////////// CODE POUR TESTER /////////////////
+/*
+{
+    "cities" : [
+            "aubagne",
+            "Paris",
+            "Evry"
+    ],
+    "options" : [
+            "1",
+            "2",
+            "3"],
+    "minSurface" : [
+           "100" ],
+    "maxSurface" : [
+           "200" ], 
+    "minPrice" : [
+           "15" ],
+    "maxPrice" : [
+           "200" ],  
+    "categorie" : [
+           "Maison",
+           "Appartement"
+            ]   
+}
+*/
