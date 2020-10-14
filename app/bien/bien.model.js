@@ -7,6 +7,9 @@ const Bien = function(bien) {
     this.Prix               = bien.prix;
     this.Adresse            = bien.adresse;
     this.CP                 = bien.cp;
+    this.Superficie         = bien.Superficie;
+    this.Ville              = bien.Ville;
+    this.Categorie          = bien.Categorie;
     this.Utilisateur_ID     = bien.utilisateur_ID;
 };
 
