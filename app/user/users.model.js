@@ -7,6 +7,7 @@ const User = function(user) {
     this.Prenom     = user.prenom;
     this.Mail       = user.mail;
     this.Telephone  = user.telephone;
+    this.Password = user.password;
 };
 
 module.exports = User;

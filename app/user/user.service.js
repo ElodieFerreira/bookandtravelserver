@@ -22,8 +22,8 @@ userService.findById = (userId, result) => {
     });
 };
 
-userService.post = (nom, prenom, mail, telephone, result) => {
-    pool.query(`INSERT INTO utilisateur(Nom, Prenom, Mail, Telephone) VALUES ('${nom}', '${prenom}', '${mail}', '${telephone}')`, (err, res) => {
+userService.signup = (user, result) => {
+    pool.query(`INSERT INTO utilisateur(Nom, Prenom, Mail, Telephone, MDP) VALUES ('${user.Nom}', '${user.Prenom}', '${user.Mail}', '${user.Telephone}','${user.Password}')`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -60,6 +60,7 @@ userService.put = (id, nom, prenom, mail, telephone, result) => {
     });
 };
 
+
 userService.deleteUser = (id, result) => {
     pool.query(`DELETE FROM utilisateur WHERE ID = ${id}`, (err, res) => {
         if (err) {
@@ -78,5 +79,26 @@ userService.deleteUser = (id, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+
+userService.findByEmail = (email, result) => {
+    pool.query(`SELECT * FROM utilisateur WHERE Mail = '${email}'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found user ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+
 
 module.exports = userService;

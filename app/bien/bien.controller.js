@@ -122,7 +122,7 @@ deletebien = (req, res) => {
     });
 };
 //
-router.get('/research/',research);
+router.post('/research/',research);
 router.get('/:id',findById);
 router.get('/',findAll);
 

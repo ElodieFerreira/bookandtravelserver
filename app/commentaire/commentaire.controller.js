@@ -6,8 +6,9 @@ const router = express.Router();
 const commentaireService = require('./commentaire.service');
 
 test = (req, res) =>{
-    console.log("hello");
-    res.send("coucou");
+    console.log(req);
+    console.log(req.query.name);
+    res.send(req.params.name);
 }
 findById = (req, res) => {
     commentaireService.findById(req.params.id, (err, data) => {
@@ -57,10 +58,10 @@ post = (req, res) => {
     });
 };
 
-router.get('/:id',findById);
 router.get('/',test);
+router.get('/:id',findById);
 
-router.post('/' , post);
+router.get('/' , post);
 
 router.delete('/:id' , deleteCommentaire);
 

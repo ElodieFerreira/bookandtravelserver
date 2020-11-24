@@ -12,6 +12,8 @@ const Request = function(request) {
 
 service.createSearchRequest = function(Request) {
     // structure de la requete
+    console.log("coucou jsuis le body");
+    console.log(Request);
     let retour = "Select b.* from bien b , bien_has_type bht where b.ID = bht.Bien_ID ";
     
     // Villes
@@ -39,26 +41,26 @@ service.createSearchRequest = function(Request) {
      }
     // minSurface
     var minSurface2 ="";
-    if(Request.minSurface.length != 0 ){
-        minSurface2 = " and Superficie >= "+Request.minSurface[0]+" ";
+    if(Request.minSurface!=null && Request.minSurface.length != 0 ){
+        minSurface2 = " and Superficie >= "+Request.minSurface+" ";
     }
 
     // maxSurface
     var maxSurface2 ="";
-    if(Request.maxSurface.length != 0 ){
-        maxSurface2 = " and Superficie <= "+Request.maxSurface[0]+" ";
+    if(Request.maxSurface!=null && Request.maxSurface.length != 0  ){
+        maxSurface2 = " and Superficie <= "+Request.maxSurface+" ";
     }
 
     // minPrice
     var minPrice2 ="";
     if(Request.minPrice.length != 0 ){
-        minPrice2 = " and Prix >= "+Request.minPrice[0]+" ";
+        minPrice2 = " and Prix >= "+Request.minPrice+" ";
     }
 
     // maxPrice
     var maxPrice2 ="";
     if(Request.maxPrice.length != 0 ){
-        maxPrice2 = " and Prix <= "+Request.maxPrice[0]+" ";
+        maxPrice2 = " and Prix <= "+Request.maxPrice+" ";
     }
 
     // categorie
@@ -80,30 +82,3 @@ service.createSearchRequest = function(Request) {
 }
  
 module.exports = service;
-
-/////////// CODE POUR TESTER /////////////////
-/*
-{
-    "cities" : [
-            "aubagne",
-            "Paris",
-            "Evry"
-    ],
-    "options" : [
-            "1",
-            "2",
-            "3"],
-    "minSurface" : [
-           "100" ],
-    "maxSurface" : [
-           "200" ], 
-    "minPrice" : [
-           "15" ],
-    "maxPrice" : [
-           "200" ],  
-    "categorie" : [
-           "Maison",
-           "Appartement"
-            ]   
-}
-*/
