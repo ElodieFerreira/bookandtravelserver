@@ -4,6 +4,8 @@ const pool = require("../helpers/helper_db");
 const bienService = {};
 const helpers =  require("../helpers/helper_request");
 
+
+
 //select 
 bienService.findById = (bienId, result) => {
     pool.query(`SELECT * FROM bien WHERE ID = ${bienId}`, (err, res) => {
@@ -25,8 +27,8 @@ bienService.findById = (bienId, result) => {
 };
 
 //
-bienService.findAll = (result) => {
-    pool.query(`SELECT * FROM bien`, (err, res) => {
+bienService.findAll = (userid,result) => {
+    pool.query(`SELECT * FROM bien WHERE Utilisateur_ID = ${userid}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -100,7 +102,7 @@ bienService.update = (bienId ,libelle, prix, adresse, cp, superficie, ville, cat
             return;
         }
 
-        if (res.length) {
+        if (res.affectedRows) {
             console.log("found bien ", res);
             result(null, res);
             return;
@@ -122,9 +124,9 @@ bienService.deletebien = (bienId , result) => {
             return;
         }
 
-        if (res.length) {
+        if (res.affectedRows) {
             console.log("found bien ", res);
-            result(null, res);
+            result(null, true);
             return;
         }
         result({ kind: "not_found" }, null);

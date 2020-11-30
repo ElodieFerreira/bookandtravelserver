@@ -48,11 +48,9 @@ photoService.deletePhoto = (photoId, result) => {
             console.log("error: ", err);
             result(err, null);
             return;
-        }
-
-        if (res.length) {
+        } else {
             console.log("found photo ", res[0]);
-            result(null, res[0]);
+            result(null, true);
             return;
         }
 

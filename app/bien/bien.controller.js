@@ -48,19 +48,24 @@ research = (req, res) => {
 
 // select tout les biens 
 findAll= (req, res) => {
-    bienService.findAll((err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found bien with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving bien with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(parseInt(req.params.id) == jwt.getUserId(req.headers.authorization)) {
+        bienService.findAll(req.params.id,(err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found bien with id ${req.params.customerId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving bien with id " + req.params.customerId
+                    });
+                }
+            } else res.send(data);
+        });
+    } else {
+        res.status(403).send({message: "vous ne pouvez pas recuperer ses données"});
+    }
+
 };
 
 /* 
@@ -108,19 +113,24 @@ create = (req, res) => {
 *
 */
 update = (req, res) => {
-    bienService.update(req.params.bienId, req.body.libelle, req.body.prix, req.body.adresse, req.body.cp, req.body.superficie, req.body.ville, req.body.categorie, req.body.utilisateur_id , (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found bien with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving bien with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(parseInt(req.body.Utilisateur_ID) == jwt.getUserId(req.headers.authorization)) {
+        bienService.update(req.params.bienId, req.body.Libelle, req.body.Prix, req.body.Adresse, req.body.CP, req.body.Superficie, req.body.Ville, req.body.Categorie, req.body.Utilisateur_ID , (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found bien with id ${req.params.customerId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving bien with id " + req.params.customerId
+                    });
+                }
+            } else res.status(204).send({message:'mise à jour'});
+        });
+    } else {
+        res.status(403).send("Vous n'avez pas le droit de modifier ce bien");
+    }
+
 };
 /* 
 *
@@ -129,24 +139,26 @@ update = (req, res) => {
 */
 
 deletebien = (req, res) => {
-    bienService.deletebien(req.params.bienId, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found bien with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving bien with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(jwt.getUserId(req.headers.authorization) != -1) {
+        bienService.deletebien(req.params.bienId, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found bien with id ${req.params.customerId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving bien with id " + req.params.customerId
+                    });
+                }
+            } else res.send(data);
+        });
+    } else res.status(403).send({message: "Vous n'avez pas les droits"});
 };
 //
 router.post('/research/',research);
 router.get('/:id',findById);
-router.get('/',findAll);
+router.get('/all/:id',findAll);
 router.post('/',create);
 
 router.put('/:bienId',update);
