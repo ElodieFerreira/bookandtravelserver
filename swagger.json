@@ -16,6 +16,9 @@
         "description": "Find out more",
         "url": "http://swagger.io"
       }
+    },
+    {
+      "name": "User"
     }
   ],
   "schemes": [
@@ -259,6 +262,275 @@
           }
         }
       }
+    },
+    "/user/:id": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "examples": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "string",
+                "": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Error retrieving user with id"
+              }
+            }
+          }
+        },
+        "operationId": "get-user",
+        "description": "Récupère un utilisateur par son identifiant",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "query",
+            "name": "ID",
+            "description": "L'ID de l'utilisateur"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object"
+            },
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "delete": {
+        "summary": "",
+        "operationId": "delete-user-:id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Aucun utilisateur avec ce nom",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Not found user with id "
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Error retrieving user with id"
+              }
+            }
+          }
+        },
+        "description": "supprimer un utilisateur",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "header",
+            "name": "authorization",
+            "description": "Barer + token"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-user-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "example-1": {}
+            },
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "403": {
+            "description": "Pas d'autorisation pour modifier l'utilisateur",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "L'utilisateur n'a pas été trouvé dans la Base de donnée",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Not found user with id "
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Error retrieving user with id "
+              }
+            }
+          }
+        },
+        "description": "Met à jour un utilisateur",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "header",
+            "name": "authorization",
+            "description": "Barer + token"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      },
+      "post": {
+        "summary": "",
+        "operationId": "registration",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "": "Utilisateur crée"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "message": "Error retrieving user creation"
+              }
+            }
+          }
+        },
+        "description": "Enregistre un nouvel utilisateur",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/user/login/": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Renvoie un token et l'id de l'utilisateur",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "number"
+                },
+                "toke": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "example-1": {
+                "userId": 22,
+                "token": "IAMALONGTOKEN"
+              }
+            }
+          }
+        },
+        "operationId": "get-user-login",
+        "description": "Enregistre un utilisateur"
+      }
     }
   },
   "securityDefinitions": {
@@ -371,6 +643,33 @@
           "type": "string"
         },
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "title": "User",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string"
+        },
+        "Nom": {
+          "type": "string"
+        },
+        "Prenom": {
+          "type": "string"
+        },
+        "MDP": {
+          "type": "string"
+        },
+        "Telephone": {
+          "type": "string"
+        },
+        "Mail": {
+          "type": "string"
+        },
+        "": {
           "type": "string"
         }
       }

@@ -60,4 +60,23 @@ bien_has_typeService.findByIdBien = (bienId, result) => {
     });
 };
 
+bien_has_typeService.post = (option, Bien_ID, result) => {
+    pool.query(`INSERT INTO bien_has_type(Bien_ID, options_ID) VALUES ('${Bien_ID}', ${option})`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("found photo ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+
+        // not found photo with the id
+        result({ kind: "not_found" }, null);
+    });
+};
+
 module.exports = bien_has_typeService;

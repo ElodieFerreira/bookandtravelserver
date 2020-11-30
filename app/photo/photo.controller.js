@@ -27,7 +27,7 @@ findById = (req, res) => {
     });
 };
 
-post = (req, res) => {
+postPicture = (req, res) => {
     photoService.post(req.body.Lien, req.body.Bien_ID, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -63,7 +63,7 @@ deletePhoto = (req, res) => {
 router.get('/:id',findById);
 router.get('/',test);
 
-router.post('/', post);
+router.post('/', postPicture);
 
 router.delete('/:id', deletePhoto);
 

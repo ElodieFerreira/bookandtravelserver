@@ -31,7 +31,7 @@ deleteCommentaire = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found photo with id ${req.params.customerId}.`
+                    message: `Not found jhjhjh photo with id ${req.params.customerId}.`
                 });
             } else {
                 res.status(500).send({
@@ -47,7 +47,7 @@ post = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found photo with id ${req.params.customerId}.`
+                    message: `njjhjhjhNot found photo with id ${req.params.customerId}.`
                 });
             } else {
                 res.status(500).send({
@@ -61,7 +61,7 @@ post = (req, res) => {
 router.get('/',test);
 router.get('/:id',findById);
 
-router.get('/' , post);
+router.post('/' , post);
 
 router.delete('/:id' , deleteCommentaire);
 

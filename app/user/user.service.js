@@ -23,7 +23,7 @@ userService.findById = (userId, result) => {
 };
 
 userService.signup = (user, result) => {
-    pool.query(`INSERT INTO utilisateur(Nom, Prenom, Mail, Telephone, MDP) VALUES ('${user.Nom}', '${user.Prenom}', '${user.Mail}', '${user.Telephone}','${user.Password}')`, (err, res) => {
+    pool.query(`INSERT INTO utilisateur(Nom, Prenom, Mail, Telephone, MDP) VALUES ('${user.Nom}', '${user.Prenom}', '${user.Mail}', '${user.Telephone}','${user.MDP}')`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -49,9 +49,8 @@ userService.put = (id, nom, prenom, mail, telephone, result) => {
             return;
         }
 
-        if (res.length) {
-            console.log("found user ", res);
-            result(null, res);
+        if (res.affectedRows) {
+            result(null, res.affectedRows);
             return;
         }
 
@@ -69,9 +68,9 @@ userService.deleteUser = (id, result) => {
             return;
         }
 
-        if (res.length) {
-            console.log("found user ", res);
-            result(null, res);
+        if (res.affectedRows) {
+            console.log("found and delete user", res);
+            result(null, true);
             return;
         }
 

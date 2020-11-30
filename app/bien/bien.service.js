@@ -77,10 +77,9 @@ bienService.create = (libelle, prix, adresse, cp, superficie, ville, categorie, 
             result(err, null);
             return;
         }
-
-        if (res.length) {
-            console.log("found bien ", res);
-            result(null, res);
+        if (res.affectedRows) {
+            console.log("found bien ");
+            result(null, res.insertId);
             return;
         }
         result({ kind: "not_found" }, null);
