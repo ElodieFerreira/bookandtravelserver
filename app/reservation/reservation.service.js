@@ -170,9 +170,9 @@ reservationService.insertReservation = (date_d, date_f, etat, total, bien_id, lo
             return;
         }
 
-        if (res.length) {
+        if (res.affectedRows) {
             console.log("found reservation ", res);
-            result(null, res);
+            result(null, true);
             return;
         }
 

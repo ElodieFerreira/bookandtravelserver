@@ -3,6 +3,7 @@
 const pool = require("../helpers/helper_db");
 const commentaireService = {};
 
+
 commentaireService.findById = (commentaireId, result) => {
     pool.query(`SELECT * FROM commentaire WHERE ID = ${commentaireId}`, (err, res) => {
         if (err) {
@@ -31,8 +32,8 @@ commentaireService.deleteCommentaire = (id, result) => {
             return;
         }
 
-        if (res.length) {
-            console.log("found commentaire ", res[0]);
+        if (res.affectedRows) {
+            console.log("found commentaire ", true);
             result(null, res[0]);
             return;
         }
@@ -50,9 +51,9 @@ commentaireService.post = (etoiles, commentaire, reservation_ID, bien_ID, result
             return;
         }
 
-        if (res.length) {
+        if (res.affectedRows) {
             console.log("found commentaire ", res[0]);
-            result(null, res[0]);
+            result(null, true);
             return;
         }
 

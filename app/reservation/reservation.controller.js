@@ -4,7 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const reservationService = require('./reservation.service');
-
+const jwt = require('../helpers/jwt');
 
 
 test = (req, res) =>{
@@ -18,36 +18,40 @@ test = (req, res) =>{
 *
 */
 findById = (req, res) => {
-    reservationService.findById(req.params.id, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(-1 !== jwt.getUserId(req.headers.authorization)) {
+        reservationService.findById(req.params.id, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found reservation with id ${req.params.customerId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving reservation with id " + req.params.customerId
+                    });
+                }
+            } else res.send(data);
+        });
+    } else res.status(403).send({message: 'Non autorisé'})
 };
 
 // location à partir de l'id du locataire
 findByID_Locataire = (req, res) => {
-    reservationService.findByID_Locataire(req.params.id, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(parseInt(req.params.id) == jwt.getUserId(req.headers.authorization)) {
+        reservationService.findByID_Locataire(req.params.id, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found reservation with id ${req.params.customerId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error retrieving reservation with id " + req.params.customerId
+                    });
+                }
+            } else res.send(data);
+        });
+    } else res.status(403).send({message: 'Non autorisé'})
 };
 
 // location à partir de l'id du loueur
@@ -56,11 +60,11 @@ findByID_Loueur = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
+                    message: `Not found reservation with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
+                    message: "Error retrieving reservation with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -72,11 +76,11 @@ getcomments = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
+                    message: `Not found commentaire pour la resevation id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
+                    message: "Error retrieving reservation with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -105,11 +109,11 @@ getreservation  = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
+                    message: `Not found reservation with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
+                    message: "Error retrieving reservation with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -149,19 +153,28 @@ updateByID_etat = (req, res) => {
 
 //
 insertReservation = (req, res) => {
-    reservationService.insertReservation(req.body.date_d, req.body.date_f, req.body.etat, req.body.total, req.body.bien_id, req.body.loueur_id, req.body.locataire_id, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    etat = 'en attente';
+    if(parseInt(req.body.locataire_id) == jwt.getUserId(req.headers.authorization)) {
+        if(req.body.date_d && req.body.date_f && req.body.total && req.body.bien_id && req.body.loueur_id && req.body.locataire_id) {
+            reservationService.insertReservation(req.body.date_d, req.body.date_f, etat, req.body.total, req.body.bien_id, req.body.loueur_id, req.body.locataire_id, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error retrieving reservation with id " + req.params.customerId
+                        });
+                    }
+                } else res.status(204).send();
+            });
+        } else {
+            res.status(404).send({message: 'il manque des informations'});
+        }
+    } else {
+        res.status(403).send({message: 'Non autorisé'})
+    }
 }; 
 
 
@@ -180,8 +193,8 @@ router.get('/photos/:id',getphotos);
 router.get('/reservations/:id',getreservation);
  
 //post
-router.post('/insertReservation/',insertReservation);
-router.post('/updateByID_etat/',updateByID_etat);
+router.post('/',insertReservation);
+router.put('/updateByID_etat/',updateByID_etat);
 
 router.get('/',test);
 
