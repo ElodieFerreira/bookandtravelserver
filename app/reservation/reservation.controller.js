@@ -129,19 +129,24 @@ getreservation  = (req, res) => {
 // mise de jour de l etat de la réservation
 
 updateByID_etat = (req, res) => {
-    reservationService.updateByID_etat(req.body.id, req.body.etat, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Not found reservation with id ${req.params.customerId}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "Error retrieving reservation with id " + req.params.customerId
-                });
-            }
-        } else res.send(data);
-    });
+    if(-1 !== jwt.getUserId(req.headers.authorization)) {
+        console.log(req.body.etatR);
+        if(req.params.id && req.body.etat) {
+            reservationService.updateByID_etat(req.params.id, req.body.etat, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.status(404).send({
+                            message: `Not found reservation with id ${req.params.id}.`
+                        });
+                    } else {
+                        res.status(500).send({
+                            message: "Error retrieving reservation with id " + req.params.id
+                        });
+                    }
+                } else res.status(204).send('ok');
+            });
+        } else res.status(404).send({message: 'informations manquantes'})
+    } else res.status(403).send({message: 'non autorisé'});
 };
 
 /* 
@@ -194,7 +199,7 @@ router.get('/reservations/:id',getreservation);
  
 //post
 router.post('/',insertReservation);
-router.put('/updateByID_etat/',updateByID_etat);
+router.put('/etat/:id',updateByID_etat);
 
 router.get('/',test);
 

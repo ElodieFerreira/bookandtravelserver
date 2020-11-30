@@ -143,8 +143,8 @@ reservationService.updateByID_etat = (ID, etat, result) => {
             return;
         }
 
-        if (res.length) {
-            console.log("found reservation ", res);
+        if (res.affectedRows) {
+            console.log("found reservation ", true);
             result(null, res);
             return;
         }
