@@ -76,6 +76,10 @@ put = (req, res) => {
 login = (req, res) => {
     var mail = req.body.Mail;
     var password = req.body.MDP;
+    if(!mail || !password) {
+        res.status(404).send({message: 'il manque des informations'});
+        return;
+    }
     userService.findByEmail(mail, (err, userFound) => {
         if (userFound) {
             bcrypt.compare(password, userFound.MDP, function (errBycript, resBycript) {

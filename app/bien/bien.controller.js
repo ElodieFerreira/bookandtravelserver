@@ -19,11 +19,11 @@ findById = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found bien with id ${req.params.customerId}.`
+                    message: `Not found bien with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Error retrieving bien with id " + req.params.customerId
+                    message: "Error retrieving bien with id " + req.params.id
                 });
             }
         } else res.send(data);
@@ -118,11 +118,11 @@ update = (req, res) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Not found bien with id ${req.params.customerId}.`
+                        message: `Not found bien with id ${req.params.bienId}.`
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error retrieving bien with id " + req.params.customerId
+                        message: "Error retrieving bien with id " + req.params.bienId
                     });
                 }
             } else res.status(204).send({message:'mise à jour'});
