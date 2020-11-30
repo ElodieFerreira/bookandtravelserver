@@ -19,6 +19,12 @@
     },
     {
       "name": "User"
+    },
+    {
+      "name": "Bien"
+    },
+    {
+      "name": "Photo"
     }
   ],
   "schemes": [
@@ -335,8 +341,8 @@
         "summary": "",
         "operationId": "delete-user-:id",
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           },
           "403": {
             "description": "Forbidden",
@@ -461,8 +467,8 @@
         "summary": "",
         "operationId": "registration",
         "responses": {
-          "200": {
-            "description": "OK",
+          "204": {
+            "description": "No Content",
             "schema": {
               "type": "object",
               "properties": {
@@ -530,6 +536,476 @@
         },
         "operationId": "get-user-login",
         "description": "Enregistre un utilisateur"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-user-login",
+        "responses": {
+          "200": {
+            "description": "Renvoie un token et l'id de l'utilisateur",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "number"
+                },
+                "token": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "userId",
+                "token"
+              ]
+            },
+            "examples": {
+              "example-1": {
+                "userId": 55,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU1LCJpYXQiOjE2MDY3NTEyMTV9.w9aOUgm040RFEY1TWIJTD4pmvtl4gmCVmmG5BtyO4do"
+              }
+            }
+          }
+        },
+        "description": "Enregistre un utilisateur",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "Mail": {
+                  "type": "string"
+                },
+                "MDP": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "Mail",
+                "MDP"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/bien/all/:id": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "Bien"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": [
+                  "ID",
+                  "Libelle",
+                  "Prix",
+                  "Adresse",
+                  "CP",
+                  "Superficie",
+                  "Ville",
+                  "Categorie",
+                  "Utilisateur_ID"
+                ],
+                "properties": {
+                  "ID": {
+                    "type": "number"
+                  },
+                  "Libelle": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Prix": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Adresse": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "CP": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Superficie": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Ville": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Categorie": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Utilisateur_ID": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "L'utilisateur n'a pas le bon token",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Aucune maison trouvé pour cette utilisateur",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "500": {
+            "description": "Erreur lors de la requête ( serveur )",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-bien-all",
+        "description": "Renvoie tous les biens d'un utilisateur par son id.",
+        "parameters": [
+          {
+            "type": "string",
+            "in": "header",
+            "name": "authorization",
+            "description": "Token"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {}
+            }
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "id",
+            "description": "user id"
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/bien/id": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-bien-id"
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-bien-id",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "description": "Vous n'avez pas le droit de modifier ce bien",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "Libelle": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Prix": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Adresse": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "CP": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Superficie": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Ville": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Categorie": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Utilisateur_ID": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "Libelle",
+                "Prix",
+                "Adresse",
+                "CP",
+                "Superficie",
+                "Ville",
+                "Categorie",
+                "Utilisateur_ID"
+              ]
+            },
+            "description": ""
+          }
+        ],
+        "tags": [
+          "Bien"
+        ]
+      }
+    },
+    "/reservation/:id": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "reservation"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "number"
+                },
+                "Date_Debut": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Date_fin": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Etat_Reservation": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Total": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Bien_ID": {
+                  "type": "number"
+                },
+                "ID_Loueur": {
+                  "type": "number"
+                },
+                "ID_Locataire": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "ID",
+                "Date_Debut",
+                "Date_fin",
+                "Etat_Reservation",
+                "Total",
+                "Bien_ID",
+                "ID_Loueur",
+                "ID_Locataire"
+              ]
+            }
+          },
+          "404": {
+            "description": "Réservation pas trouvé",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-reservation-:id",
+        "description": "Prendre une réservation via son id"
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-reservation-:id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Supprime une réservation"
+      }
+    },
+    "/photo/:id": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "Photo"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": [
+                  "ID",
+                  "Lien",
+                  "Bien_ID"
+                ],
+                "properties": {
+                  "ID": {
+                    "type": "number"
+                  },
+                  "Lien": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "Bien_ID": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "get-photo-:id",
+        "description": "Renvoie les photos d'un ",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ]
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-photo-:id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-photo-:id",
+        "responses": {
+          "204": {
+            "description": "No content"
+          }
+        }
+      }
+    },
+    "/photo/": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "Photo"
+        ],
+        "responses": {},
+        "operationId": "get-photo"
+      },
+      "put": {
+        "summary": "",
+        "operationId": "Ajout d'une photo",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "description": "Pas autorisé",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "Lien": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Bien_ID": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "Lien",
+                "Bien_ID"
+              ]
+            }
+          }
+        ]
       }
     }
   },
